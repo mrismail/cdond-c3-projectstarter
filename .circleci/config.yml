@@ -9,6 +9,15 @@ commands:
           command: |
             yum install -y tar gzip
   
+  install-sudo:
+    description: Install sudo utility
+    steps:
+      - run:
+          name: Install sudo utility
+          command: |
+            apt update
+            apt install sudo
+  
   install-curl:
     description: Install curl utility
     steps:
@@ -211,6 +220,7 @@ jobs:
             - "2a:9e:84:94:e2:67:ab:21:04:4c:8c:d8:4f:63:f7:78:ba:65:21:f2"
       - attach_workspace:
           at: ~/
+      - install-sudo
       - install-curl
       - install-awscli
       - install-ansible
