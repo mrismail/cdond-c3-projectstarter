@@ -8,6 +8,15 @@ commands:
           name: Install tar utility
           command: |
             yum install -y tar gzip
+  
+  install-curl:
+    description: Install curl utility
+    steps:
+      - run:
+          name: Install curl utility
+          command: |
+            sudo apt update
+            sudo apt install curl
 
   install-awscli:
     description: Install AWS CLI
@@ -202,6 +211,7 @@ jobs:
             - "2a:9e:84:94:e2:67:ab:21:04:4c:8c:d8:4f:63:f7:78:ba:65:21:f2"
       - attach_workspace:
           at: ~/
+      - install-curl
       - install-awscli
       - install-ansible
       - run:
