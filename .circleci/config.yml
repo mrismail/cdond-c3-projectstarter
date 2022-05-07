@@ -211,7 +211,7 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment
 
-run-migrations:
+  run-migrations:
     docker:
       - image: cimg/node:14.19.1
     steps:
