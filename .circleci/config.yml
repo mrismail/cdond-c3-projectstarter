@@ -8,24 +8,6 @@ commands:
           name: Install tar utility
           command: |
             yum install -y tar gzip
-  
-  install-sudo:
-    description: Install sudo utility
-    steps:
-      - run:
-          name: Install sudo utility
-          command: |
-            apt update
-            apt install sudo
-  
-  install-curl:
-    description: Install curl utility
-    steps:
-      - run:
-          name: Install curl utility
-          command: |
-            sudo apt update
-            sudo apt install curl
 
   install-awscli:
     description: Install AWS CLI
@@ -85,7 +67,7 @@ commands:
 jobs:
   build-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -102,7 +84,7 @@ jobs:
 
   build-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -119,7 +101,7 @@ jobs:
 
   test-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -133,7 +115,7 @@ jobs:
                 
   test-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -147,7 +129,7 @@ jobs:
             
   scan-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -161,7 +143,7 @@ jobs:
 
   scan-backend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
@@ -212,7 +194,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: ubuntu:latest
+      - image: cimg/base:stable
     steps:
       - checkout
       - add_ssh_keys: 
@@ -220,8 +202,6 @@ jobs:
             - "2a:9e:84:94:e2:67:ab:21:04:4c:8c:d8:4f:63:f7:78:ba:65:21:f2"
       - attach_workspace:
           at: ~/
-      - install-sudo
-      - install-curl
       - install-awscli
       - install-ansible
       - run:
