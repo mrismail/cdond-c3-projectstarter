@@ -253,7 +253,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [frontend-deps]
+          keys: [frontend-build]
       - attach_workspace:
           at: ~/
       - install-nodejs
@@ -285,7 +285,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-deps]
+          keys: [backend-build]
       - add_ssh_keys: 
           fingerprints: 
             - "bc:d0:1e:e5:1d:43:83:b0:c0:a1:41:ec:d3:31:58:34"
