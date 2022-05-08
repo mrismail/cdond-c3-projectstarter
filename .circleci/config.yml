@@ -316,11 +316,7 @@ jobs:
     steps:
       - checkout
       - install-nodejs
-      - install-awscli
-      - run:
-          name: Get backend url
-          command: |
-            
+      - install-awscli            
       - run:
           name: Backend smoke test.
           command: |
