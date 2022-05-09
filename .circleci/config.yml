@@ -65,8 +65,8 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            SUCCESS = $(curl --insecure  https://kvdb.io/Ws6sFmwJnAT8HskgkHUsdG/migration_<< parameters.Workflow_ID >>)
-            if(( $SUCCESS==1 )); 
+            SUCCESS = $(curl https://keyvalue.immanuel.co/api/KeyVal/GetValue/3wan4pdo/migration_<< parameters.Workflow_ID >>)
+            if(( $SUCCESS==1 ));
             then
               cd ~/project/backend
               npm install
@@ -242,9 +242,9 @@ jobs:
                   # If you are using memstash.io, generate the token "7933fe63-4687-4fa1-8426-aa25aa1730ec" on the website
                   #curl -H "Content-Type: text/plain" -H "token: 7933fe63-4687-4fa1-8426-aa25aa1730ec" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
                   # If you are using kvdb.io, generate the bucket ID "9GE4jRtKznmVKRfvdBABBe" in your local terminal first
-                  curl https://kvdb.io/Ws6sFmwJnAT8HskgkHUsdG/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+                  curl https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/3wan4pdo/migration_${CIRCLE_WORKFLOW_ID:0:7}/1
               fi
-      - revert-migrations      
+      - revert-migrations
       - destroy-environment      
 
   deploy-frontend:
