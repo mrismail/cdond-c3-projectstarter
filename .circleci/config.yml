@@ -222,27 +222,28 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/base:stable
+      # - image: cimg/base:stable
+      - image: cimg/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-build]
-      - install-nodejs
+      # - restore_cache:
+      #     keys: [backend-build]
+      # - install-nodejs
       - install-awscli
       - run:
           name: set env variables
           command: |
             export NODE_ENV=production
             export VERSION=1
-            export TYPEORM_CONNECTION=${TYPEORM_CONNECTION}
-            export TYPEORM_ENTITIES=${TYPEORM_ENTITIES}
-            export TYPEORM_HOST=${TYPEORM_HOST}
-            export TYPEORM_PORT=${TYPEORM_PORT}
-            export TYPEORM_USERNAME=${TYPEORM_USERNAME}
-            export TYPEORM_PASSWORD=${TYPEORM_PASSWORD}
-            export TYPEORM_DATABASE=${TYPEORM_DATABASE}
-            export TYPEORM_MIGRATIONS=${TYPEORM_MIGRATIONS}
-            export TYPEORM_MIGRATIONS_DIR=${TYPEORM_MIGRATIONS_DIR}
+            # export TYPEORM_CONNECTION=${TYPEORM_CONNECTION}
+            # export TYPEORM_ENTITIES=${TYPEORM_ENTITIES}
+            # export TYPEORM_HOST=${TYPEORM_HOST}
+            # export TYPEORM_PORT=${TYPEORM_PORT}
+            # export TYPEORM_USERNAME=${TYPEORM_USERNAME}
+            # export TYPEORM_PASSWORD=${TYPEORM_PASSWORD}
+            # export TYPEORM_DATABASE=${TYPEORM_DATABASE}
+            # export TYPEORM_MIGRATIONS=${TYPEORM_MIGRATIONS}
+            # export TYPEORM_MIGRATIONS_DIR=${TYPEORM_MIGRATIONS_DIR}
             echo $NODE_ENV
             echo $VERSION
             echo $TYPEORM_CONNECTION
