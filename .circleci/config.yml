@@ -222,11 +222,27 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:14.19.1
+      - image: cimg/base:stable
     steps:
       - checkout
       - restore_cache:
           keys: [backend-build]
+      - install-nodejs
+      - install-awscli
+      - run:
+          name: set env variables
+          command: |
+            export NODE_ENV=production
+            export VERSION=1
+            export TYPEORM_CONNECTION=${TYPEORM_CONNECTION}
+            export TYPEORM_ENTITIES=${TYPEORM_ENTITIES}
+            export TYPEORM_HOST=${TYPEORM_HOST}
+            export TYPEORM_PORT=${TYPEORM_PORT}
+            export TYPEORM_USERNAME=${TYPEORM_USERNAME}
+            export TYPEORM_PASSWORD=${TYPEORM_PASSWORD}
+            export TYPEORM_DATABASE=${TYPEORM_DATABASE}
+            export TYPEORM_MIGRATIONS=${TYPEORM_MIGRATIONS}
+            export TYPEORM_MIGRATIONS_DIR=${TYPEORM_MIGRATIONS_DIR}
       - run:
           name: Run migrations
           command: |
@@ -243,7 +259,7 @@ jobs:
                   curl https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7} -d '1'
               fi
       - revert-migrations
-      - destroy-environment      
+      - destroy-environment
 
   deploy-frontend:
     docker:
