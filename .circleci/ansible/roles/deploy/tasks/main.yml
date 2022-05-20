@@ -1,26 +1,34 @@
 ---
-- name: "Creates backend app directory"
-  file:
-    path: ~/backend-app
-    state: directory
+- name: "Copy from src to dist"
+  copy:
+    src: "~/artifact.tar.gz"
+    dest: "~/artifact.tar.gz"
 
-- name: "Unarchive backend files"
-  unarchive:
-    src: artifact.tar.gz
-    dest: ~/backend-app
+- name: "create new folder"
+  shell: mkdir ~/backend
 
-- name: "Installing Node Dependencies"
-  shell: |
-    cd ~/backend-app
-    npm i
+- name: "do unziping to copied files in dest backend"
+  ansible.builtin.unarchive:
+    src: ~/artifact.tar.gz
+    dest: ~/backend
     
-- name: "Executing Node app with PM2"
+- name: "Install dependencies for project"
   shell: |
-    cd ~/backend-app/dist
+    cd ~/backend
+    npm install
+    npm i
+
+- name: "sleep"
+  shell: |
+    sleep 15
+
+- name: "Executing node"
+  shell: |
+    cd ~/backend
     pm2 stop default
-    pm2 start main.js
+    pm2 start npm -- start
   register: execute_node
 
-- name: print message
+- name: "execute node msg"
   debug:
     msg: "{{ execute_node.stdout_lines }}"
