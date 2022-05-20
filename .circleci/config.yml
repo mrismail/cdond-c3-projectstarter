@@ -9,6 +9,16 @@ commands:
           command: |
             yum install -y tar gzip
 
+  install-curl:
+    description: Install curl utility
+    steps:
+      - run:
+          name: Install curl utility
+          command: |
+            yum update -y
+            yum upgrade -y 
+            yum install curl -y
+
   install-awscli:
     description: Install AWS CLI
     steps:
@@ -259,7 +269,6 @@ jobs:
           at: ~/
       - install-nodejs
       - install-awscli
-      - install-ansible
       - run:
           name: Get backend url
           command: |
@@ -313,11 +322,10 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/base:stable
+      - image: amazon/aws-cli
     steps:
       - checkout
-      - install-nodejs
-      - install-awscli            
+      - install-curl
       - run:
           name: Backend smoke test.
           command: |
