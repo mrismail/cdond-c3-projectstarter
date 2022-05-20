@@ -1,24 +1,17 @@
-- name: "update packege"
-  apt:
-    update_cache: yes
-
-- name: "upgrade package"
-  apt:
-    upgrade: yes
-
-  
-- name: "Add And install Node JS"
+---
+- name: "Add Nodejs from Nodesource"
   become: true
   shell: |
-    curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash - && sudo apt-get install -y nodejs
-- name: "Installing Node.js and make sure it is installed"
+    curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+
+- name: "Install Node.js"
   become: true
   apt:
     name: ["nodejs"]
     state: latest
     update_cache: yes
 
-- name: "Install pm2"
+- name: "Install PM2 Globally"
   npm:
     name: pm2
     global: yes
