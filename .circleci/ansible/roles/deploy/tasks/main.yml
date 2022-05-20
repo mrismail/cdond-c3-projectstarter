@@ -1,32 +1,71 @@
+# ---
+# - name: "Creates backend app directory"
+#   shell: mkdir ~/backend-app
+
+# - name: "Unarchive backend files"
+#   unarchive:
+#     src: artifact.tar.gz
+#     dest: ~/backend-app
+
+# - name: "Installing Node Dependencies"
+#   shell: |
+#     cd ~/backend-app
+#     npm i
+
+# - name: "Executing Node app with PM2"
+#   shell: |
+#     # cd ~/backend-app/dist
+#     # pm2 stop default
+#     # pm2 start main.js
+#     cd ~/backend-app
+#     pm2 stop default
+#     pm2 start npm -- start
+#   register: execute_node
+
+# - name: print message
+#   debug:
+#     msg: "{{ execute_node.stdout_lines }}"
+
+# - name: "Configure pm2 to start as service"
+#   become: true
+#   shell: |
+#     env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
+
 ---
-- name: "Creates backend app directory"
-  shell: mkdir ~/backend-app
+- name: "Copy from src to dist"
+  copy:
+    src: "~/artifact.tar.gz"
+    dest: "~/artifact.tar.gz"
 
-- name: "Unarchive backend files"
-  unarchive:
-    src: artifact.tar.gz
-    dest: ~/backend-app
+- name: "create new folder"
+  shell: mkdir ~/backend
 
-- name: "Installing Node Dependencies"
+- name: "do unziping to copied files in dest backend"
+  ansible.builtin.unarchive:
+    src: ~/artifact.tar.gz
+    dest: ~/backend
+    
+- name: "Install dependencies for project"
   shell: |
-    cd ~/backend-app
+    cd ~/backend
+    npm install
     npm i
+# - name: "Copying env vars"
+#   copy:
+#     src: "~/.env"
+#     dest: "~/backend/.env"
 
-- name: "Executing Node app with PM2"
+- name: "sleep"
   shell: |
-    # cd ~/backend-app/dist
-    # pm2 stop default
-    # pm2 start main.js
-    cd ~/backend-app
+    sleep 15
+
+- name: "Executing node"
+  shell: |
+    cd ~/backend
     pm2 stop default
     pm2 start npm -- start
   register: execute_node
 
-- name: print message
+- name: "execute node msg"
   debug:
     msg: "{{ execute_node.stdout_lines }}"
-
-- name: "Configure pm2 to start as service"
-  become: true
-  shell: |
-    env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
