@@ -243,6 +243,17 @@ jobs:
             export TYPEORM_DATABASE=${TYPEORM_DATABASE}
             export TYPEORM_MIGRATIONS=${TYPEORM_MIGRATIONS}
             export TYPEORM_MIGRATIONS_DIR=${TYPEORM_MIGRATIONS_DIR}
+            export NODE_ENV
+            export VERSION
+            export TYPEORM_CONNECTION
+            export TYPEORM_ENTITIES
+            export TYPEORM_HOST
+            export TYPEORM_PORT
+            export TYPEORM_USERNAME
+            export TYPEORM_PASSWORD
+            export TYPEORM_DATABASE
+            export TYPEORM_MIGRATIONS
+            export TYPEORM_MIGRATIONS_DIR
       - run:
           name: Run migrations
           command: |
