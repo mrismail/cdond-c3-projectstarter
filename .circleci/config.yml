@@ -16,7 +16,7 @@ commands:
           name: Install curl utility
           command: |
             yum update -y
-            yum upgrade -y 
+            yum upgrade -y
             yum install curl -y
 
   install-awscli:
@@ -337,7 +337,6 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - install-curl
       - run:
           name: Backend smoke test.
           command: |
@@ -367,7 +366,7 @@ jobs:
             else
               exit 1
             fi
-      - revert-migrations
+      # - revert-migrations
       - destroy-environment
 
   cloudfront-update:
